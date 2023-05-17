@@ -17,42 +17,44 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
             put(key, value, root);
         }
     }
-    public V get(K key){
-        if(isEmpty()){ // if tree is empty return null
-            return null;
-        }else {
-            Node node = get(key, root);
+    public V get(K key) {
+        Node node = get(key, root);
+        if (node != null) {
             return node.value;
+        } else {
+            return null; // Key not found in the BST
         }
     }
     private Node put (K key, V value, Node current){
         if(key.compareTo(current.key) < 0){  //if key less than current key
             if(current.left == null) {
-                current = new Node(key, value); // recurse to the left node until reach leaf node
+                current.left = new Node(key, value);// recurse to the left node until reach leaf node
             }else {
                 current.left = put(key, value, current.left);
             }
         } else if (key.compareTo(current.key) > 0) { //if key greater than current key
             if(current.right == null) {
-                current = new Node(key, value);  // recurse to the right node until reach leaf node
+                current.right = new Node(key, value);  // recurse to the right node until reach leaf node
             }else {
                 current.right = put(key, value, current.right);
             }
         }
         return current;
     }
-    private Node get(K key,Node current){
-        Node temp = new Node(null,null); //create a temp node to store the found node
+    private Node get(K key, Node current) {
+        Node temp;
         if(key.equals(current.key)){
-            temp = current; // assign the current node to the temp node
+            temp = current;
         }else {
-            if(key.compareTo(current.key)<0)
-                return get(key, current.left); // recursively search in the left subtree and return the result
-            if(key.compareTo(current.key)>0)
-                return get(key, current.right); //recursively search in the right subtree and return the result
+            if(key.compareTo(current.key)<0){
+                return get(key, current.left);
+            }else {
+                return get(key, current.right);
+            }
         }
-        return temp;  // return temp node
+        return temp;
     }
+
     public boolean isEmpty(){
         return root==null;  // check if root empty
     }
