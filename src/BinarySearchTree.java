@@ -11,7 +11,7 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
     }
     // methods
     public void put(K key, V value){
-        if(isEmpty()){  //if the tree is empty create a root node
+        if(isEmpty()){
             root = new Node(key, value);
         }else{
             put(key, value, root);
@@ -22,13 +22,15 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
         if (node != null) {
             return node.value;
         } else {
-            return null; // Key not found in the BST
+            return null;
         }
     }
     public void delete(K key) {
         root = delete(root, key);
     }
-
+    public int size() {
+        return size(root);
+    }
 
     private Node put (K key, V value, Node current){
         if(key.compareTo(current.key) < 0){  //if key less than current key
@@ -47,14 +49,14 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
         return current;
     }
     private Node get(K key, Node current) {
-        Node temp;
+        Node temp; // create a temporary node to store the found node
         if(key.equals(current.key)){
-            temp = current;
+            temp = current; // assign the current node to the temporary node
         }else {
             if(key.compareTo(current.key)<0){
-                return get(key, current.left);
+                return get(key, current.left); // Recursively search in the left subtree
             }else {
-                return get(key, current.right);
+                return get(key, current.right); // Recursively search in the right subtree
             }
         }
         return temp;
@@ -87,12 +89,21 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
         }
         return node;
     }
+    private int size(Node node) {
+        if (node == null) { // if the tree is empty, the size is 0
+            return 0;
+        }
+        int leftSize = size(node.left);
+        int rightSize = size(node.right); // recursively calculate the size of the left and right subtree
+
+        return leftSize + rightSize + 1; //sum of sizes of left subtree, right subtree and the current node
+    }
 
     private Node findSuccessor(Node node) {
         while (node.left != null) {
             node = node.left;
         }
-        return node;
+        return node; // return the smallest node
     }
 
     public boolean isEmpty(){
