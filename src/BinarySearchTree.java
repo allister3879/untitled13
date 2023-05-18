@@ -1,3 +1,7 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
 public class BinarySearchTree <K extends Comparable<K>, V> {
     private Node root;
     private class Node {
@@ -30,6 +34,11 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
     }
     public int size() {
         return size(root);
+    }
+    public Iterable<K> iterator() {
+        List<K> keys = new ArrayList<>();
+        inOrder(root, keys);
+        return keys;
     }
 
     private Node put (K key, V value, Node current){
@@ -97,6 +106,15 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
         int rightSize = size(node.right); // recursively calculate the size of the left and right subtree
 
         return leftSize + rightSize + 1; //sum of sizes of left subtree, right subtree and the current node
+    }
+    private void inOrder(Node current, List<K> keys) {
+        if (current == null) {
+            return;
+        }
+
+        inOrder(current.left, keys);  // traverse the left subtree
+        keys.add(current.key);  // visit the current node
+        inOrder(current.right, keys);  // traverse the right subtree
     }
 
     private Node findSuccessor(Node node) {
