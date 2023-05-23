@@ -125,4 +125,26 @@ public class BinarySearchTree <K extends Comparable<K>, V> {
     public boolean isEmpty(){
         return root==null;  // check if root empty
     }
+    public void height(){
+        int h = heightBST(size(), 2, 3, 1);
+        System.out.println(h);
+    }
+    // 0: 1
+    // 1: 2, 3
+    // 2: 4, 7
+    // 3: 8, 15
+    //
+
+    private int heightBST(int n, int a, int b, int counter) { // n = size
+        if(n == 1){
+            return 0;
+        }else {
+            if(n >= a || n <= b){
+                return counter;
+            }else{
+                counter += 1;
+                return heightBST(n, 2*a, b+(2*a), counter);
+            }
+        }
+    }
 }
